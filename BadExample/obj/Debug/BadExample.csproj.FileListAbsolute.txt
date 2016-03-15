@@ -1,0 +1,8 @@
+c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\bin\Debug\BadExample.exe.config
+c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\bin\Debug\BadExample.exe
+c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\bin\Debug\BadExample.pdb
+c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\bin\Debug\S22.Imap.dll
+c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\bin\Debug\S22.Imap.xml
+c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\obj\Debug\BadExample.csprojResolveAssemblyReference.cache
+c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\obj\Debug\BadExample.exe
+c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\obj\Debug\BadExample.pdb
