@@ -38,10 +38,7 @@ namespace BadExample
                 while ((line = file.ReadLine()) != null)
                 {
                     Console.WriteLine(line);
-                    //you know exactly what this is below, don't use var even though resharper will say so
                     var lineSplit = line.Split(',');
-                    //basic error catching we don't think it's a csv... What if the first line is just messed up, or it has data that we're not looking for?
-                    //maybe file is candy store inventory it has ID, name, type, amount, cost
                     if (lineSplit.Length != 5)
                     {
                         break;
