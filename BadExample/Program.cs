@@ -17,16 +17,12 @@ namespace BadExample
             //Attachments from Gmail
             ImapClient client = new ImapClient("imap.gmail.com", 993, true);
             client.Login("emailToSearch@.com", "secret", AuthMethod.Auto);
-            //USE BETTER VARIABLE NAMES
             var things = client.Search(SearchCondition.From("senderEmail@.com"));
             foreach (var thing in things)
             {
                 var thingFromThings = client.GetMessage(thing).Attachments;
                 foreach (var thingFromThing in thingFromThings)
                 {
-                    //newThing was fileStream
-                    //thingFromThings was attachments
-                    //things was emailsFromSender
                     var newThing = File.Create("C:\\Users\\bkoenig\\Desktop\\Temp\\" + thingFromThing.Name);
                     thingFromThing.ContentStream.Seek(0, SeekOrigin.Begin);
                     thingFromThing.ContentStream.CopyTo(newThing);
@@ -34,7 +30,6 @@ namespace BadExample
                 }
             }
             //Read Info from files
-            //maybe you find this link so you just plug in your path for theirs and you're good to go!
             int counter = 0;
             string line;
             foreach (var thing in Directory.GetFiles("C:\\Users\\bkoenig\\Desktop\\Temp\\"))
@@ -58,7 +53,6 @@ namespace BadExample
                             )
                         {
                             var returnVal = 0;
-                            //This is called ADO.Net, you know that you shouldn't just use plain text for a db call, SQL Injection
                             var command = new SqlCommand("INSERT INTO Candy_Inventory (ID, Name, Type, Amount, Cost) values (@id, @name, @type, @amount, @cost)");
                             command.Parameters.AddWithValue("id", lineSplit[0]);
                             command.Parameters.AddWithValue("name", lineSplit[1]);
@@ -82,10 +76,8 @@ namespace BadExample
                 }
             }
             //Store files on s3
-            //You find this http://docs.aws.amazon.com/AmazonS3/latest/dev/UploadObjSingleOpNET.html
             foreach (var thing in Directory.GetFiles("C:\\Users\\bkoenig\\Desktop\\Temp\\"))
             {
-                //You know GetCredentials is necessary but it's not one of the main objectives it just assists you so split that off into it's own method
                 var amazonClient = new AmazonS3Client(GetCredentials(), Amazon.RegionEndpoint.USEast1);
                 PutObjectRequest request = new PutObjectRequest()
                 {

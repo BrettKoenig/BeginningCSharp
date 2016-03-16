@@ -6,3 +6,5 @@ c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\bin
 c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\obj\Debug\BadExample.csprojResolveAssemblyReference.cache
 c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\obj\Debug\BadExample.exe
 c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\obj\Debug\BadExample.pdb
+c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\bin\Debug\AWSSDK.dll
+c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\bin\Debug\AWSSDK.pdb
