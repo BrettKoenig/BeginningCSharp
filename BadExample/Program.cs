@@ -15,7 +15,7 @@ namespace BadExample
     {
         static void Main(string[] args)
         {
-            //Attachments from Gmail
+            //Get Attachments from Gmail
             ImapClient client = new ImapClient("imap.gmail.com", 993, true);
             client.Login(ConfigurationManager.AppSettings["EmailUsername"], ConfigurationManager.AppSettings["EmailPassword"], AuthMethod.Auto);
             var emailsFromSender = client.Search(SearchCondition.From(ConfigurationManager.AppSettings["SearchFromEmail"]));
@@ -28,62 +28,55 @@ namespace BadExample
                     attachment.ContentStream.Seek(0, SeekOrigin.Begin);
                     attachment.ContentStream.CopyTo(localFile);
                     localFile.Close();
-                }
-            }
-            //Read Info from files
-            int counter = 0;
-            string line = string.Empty;
-            foreach (var attachmentFile in Directory.GetFiles(ConfigurationManager.AppSettings["TempFileLocation"]))
-            {
-                StreamReader fileStream = new StreamReader(attachmentFile);
-                while ((line = fileStream.ReadLine()) != null)
-                {
-                    Console.WriteLine(line);
-                    var lineSplit = line.Split(',');
-                    if (lineSplit.Length != 5)
-                    {
-                        break;
-                    }
-                    using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
-                    {
-                        var returnVal = 0;
-                        var command = new SqlCommand("INSERT INTO Candy_Inventory (ID, Name, Type, Amount, Cost) values (@id, @name, @type, @amount, @cost)");
-                        command.Parameters.AddWithValue("id", lineSplit[0]);
-                        command.Parameters.AddWithValue("name", lineSplit[1]);
-                        command.Parameters.AddWithValue("type", lineSplit[2]);
-                        command.Parameters.AddWithValue("amount", lineSplit[3]);
-                        command.Parameters.AddWithValue("cost", Convert.ToDouble(lineSplit[4]));
 
-                        connection.Open();
-                        var reader = command.ExecuteReader();
-                        while (reader.Read())
+                    //Read Info from files
+                    string line = string.Empty;
+                    StreamReader fileStream = new StreamReader(localFile);
+                    while ((line = fileStream.ReadLine()) != null)
+                    {
+                        Console.WriteLine(line);
+                        var lineSplit = line.Split(',');
+                        if (lineSplit.Length != 5)
                         {
-                            returnVal = Convert.ToInt32(reader[0]);
-                            Console.WriteLine(returnVal);
+                            break;
                         }
-                        reader.Close();
+                        using (
+                            var connection =
+                                new SqlConnection(
+                                    ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+                        {
+                            var command =
+                                new SqlCommand(
+                                    "INSERT INTO Candy_Inventory (ID, Name, Type, Amount, Cost) values (@id, @name, @type, @amount, @cost)");
+                            command.Parameters.AddWithValue("id", lineSplit[0]);
+                            command.Parameters.AddWithValue("name", lineSplit[1]);
+                            command.Parameters.AddWithValue("type", lineSplit[2]);
+                            command.Parameters.AddWithValue("amount", lineSplit[3]);
+                            command.Parameters.AddWithValue("cost", Convert.ToDouble(lineSplit[4]));
+
+                            connection.Open();
+                            var reader = command.ExecuteReader();
+                            while (reader.Read())
+                            {
+                                int returnVal = Convert.ToInt32(reader[0]);
+                                Console.WriteLine(returnVal);
+                            }
+                            reader.Close();
+                        }
                     }
-                    counter++;
+                    fileStream.Close();
+                    //Store files on s3
+                    var amazonClient = new AmazonS3Client(GetCredentials(), Amazon.RegionEndpoint.USEast1);
+                    PutObjectRequest request = new PutObjectRequest()
+                    {
+                        BucketName = "Attachments Bucket",
+                        Key = localFile.Name,
+                        FilePath = localFile.Name
+                    };
+                    PutObjectResponse response = amazonClient.PutObject(request);
+                    //Delete files locally
+                    File.Delete(localFile.Name);
                 }
-                fileStream.Close();
-                counter = 0;
-            }
-            //Store files on s3
-            foreach (var file in Directory.GetFiles(ConfigurationManager.AppSettings["TempFileLocation"]))
-            {
-                var amazonClient = new AmazonS3Client(GetCredentials(), Amazon.RegionEndpoint.USEast1);
-                PutObjectRequest request = new PutObjectRequest()
-                {
-                    BucketName = "Attachments Bucket",
-                    Key = file,
-                    FilePath = file
-                };
-                PutObjectResponse response = amazonClient.PutObject(request);
-            }
-            //Delete files locally
-            foreach (var localFileToDelete in Directory.GetFiles(ConfigurationManager.AppSettings["TempFileLocation"]))
-            {
-                File.Delete(localFileToDelete);
             }
         }
         private static SessionAWSCredentials GetCredentials()
