@@ -18,25 +18,25 @@ namespace BadExample
             //Attachments from Gmail
             ImapClient client = new ImapClient("imap.gmail.com", 993, true);
             client.Login(ConfigurationManager.AppSettings["EmailUsername"], ConfigurationManager.AppSettings["EmailPassword"], AuthMethod.Auto);
-            var things = client.Search(SearchCondition.From(ConfigurationManager.AppSettings["SearchFromEmail"]));
-            foreach (var thing in things)
+            var emailsFromSender = client.Search(SearchCondition.From(ConfigurationManager.AppSettings["SearchFromEmail"]));
+            foreach (var email in emailsFromSender)
             {
-                var thingFromThings = client.GetMessage(thing).Attachments;
-                foreach (var thingFromThing in thingFromThings)
+                var attachmentsOnEmail = client.GetMessage(email).Attachments;
+                foreach (var attachment in attachmentsOnEmail)
                 {
-                    var newThing = File.Create(ConfigurationManager.AppSettings["TempFileLocation"] + thingFromThing.Name);
-                    thingFromThing.ContentStream.Seek(0, SeekOrigin.Begin);
-                    thingFromThing.ContentStream.CopyTo(newThing);
-                    newThing.Close();
+                    var localFile = File.Create(ConfigurationManager.AppSettings["TempFileLocation"] + attachment.Name);
+                    attachment.ContentStream.Seek(0, SeekOrigin.Begin);
+                    attachment.ContentStream.CopyTo(localFile);
+                    localFile.Close();
                 }
             }
             //Read Info from files
             int counter = 0;
-            string line;
-            foreach (var thing in Directory.GetFiles(ConfigurationManager.AppSettings["TempFileLocation"]))
+            string line = string.Empty;
+            foreach (var attachmentFile in Directory.GetFiles(ConfigurationManager.AppSettings["TempFileLocation"]))
             {
-                System.IO.StreamReader file = new System.IO.StreamReader(thing);
-                while ((line = file.ReadLine()) != null)
+                StreamReader fileStream = new StreamReader(attachmentFile);
+                while ((line = fileStream.ReadLine()) != null)
                 {
                     Console.WriteLine(line);
                     var lineSplit = line.Split(',');
@@ -65,25 +65,25 @@ namespace BadExample
                     }
                     counter++;
                 }
-                file.Close();
+                fileStream.Close();
                 counter = 0;
             }
             //Store files on s3
-            foreach (var thing in Directory.GetFiles(ConfigurationManager.AppSettings["TempFileLocation"]))
+            foreach (var file in Directory.GetFiles(ConfigurationManager.AppSettings["TempFileLocation"]))
             {
                 var amazonClient = new AmazonS3Client(GetCredentials(), Amazon.RegionEndpoint.USEast1);
                 PutObjectRequest request = new PutObjectRequest()
                 {
                     BucketName = "Attachments Bucket",
-                    Key = thing,
-                    FilePath = thing
+                    Key = file,
+                    FilePath = file
                 };
-                PutObjectResponse response2 = amazonClient.PutObject(request);
+                PutObjectResponse response = amazonClient.PutObject(request);
             }
             //Delete files locally
-            foreach (var thing in Directory.GetFiles(ConfigurationManager.AppSettings["TempFileLocation"]))
+            foreach (var localFileToDelete in Directory.GetFiles(ConfigurationManager.AppSettings["TempFileLocation"]))
             {
-                File.Delete(thing);
+                File.Delete(localFileToDelete);
             }
         }
         private static SessionAWSCredentials GetCredentials()
