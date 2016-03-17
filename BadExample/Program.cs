@@ -13,11 +13,12 @@ namespace BadExample
                 ConfigurationManager.AppSettings["SearchFromEmail"],
                 ConfigurationManager.AppSettings["TempFileLocation"],
                 ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString,
+                ConfigurationManager.AppSettings["AWSBucketName"],
                 ConfigurationManager.AppSettings["AWSAccessKey"],
                 ConfigurationManager.AppSettings["AWSSecretKey"]
                 );
 
-            emailAttachmentProcessor.ProcessEmails();
+            emailAttachmentProcessor.ProcessEmailAttachments();
         }
     }
 }

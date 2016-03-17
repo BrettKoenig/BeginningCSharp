@@ -17,15 +17,18 @@ namespace BadExample.Service
         private readonly string _searchFromEmail;
         private readonly string _tempFileLocation;
         private readonly string _connectionString;
+        private readonly string _awsBucketName;
         private readonly string _awsAccessKey;
         private readonly string _awsSecretKey;
-        public EmailAttachmentProcessor(string emailUsername, string emailPassword, string searchFromEmail, string tempFileLocation, string connectionString, string awsAccessKey, string awsSecretKey)
+        
+        public EmailAttachmentProcessor(string emailUsername, string emailPassword, string searchFromEmail, string tempFileLocation, string connectionString, string awsBucketName, string awsAccessKey, string awsSecretKey)
         {
             _emailUsername = emailUsername;
             _emailPassword = emailPassword;
             _searchFromEmail = searchFromEmail;
             _tempFileLocation = tempFileLocation;
             _connectionString = connectionString;
+            _awsBucketName = awsBucketName;
             _awsAccessKey = awsAccessKey;
             _awsSecretKey = awsSecretKey;
         }
@@ -83,7 +86,7 @@ namespace BadExample.Service
                     var amazonClient = new AmazonS3Client(GetCredentials(), Amazon.RegionEndpoint.USEast1);
                     PutObjectRequest request = new PutObjectRequest()
                     {
-                        BucketName = "Attachments Bucket",
+                        BucketName = _awsBucketName,
                         Key = localFile.Name,
                         FilePath = localFile.Name
                     };
