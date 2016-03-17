@@ -33,14 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AWSSDK, Version=2.3.55.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.2.3.55.0\lib\net45\AWSSDK.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="S22.Imap, Version=3.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\S22.Imap.3.6.0.0\lib\net40\S22.Imap.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -57,7 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BadExample.Service\BadExample.Service.csproj">
+      <Project>{63139d1d-955d-4bec-a9d2-f83708b7d894}</Project>
+      <Name>BadExample.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
