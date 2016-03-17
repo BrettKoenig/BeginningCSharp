@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
 using Amazon.Runtime;
@@ -16,14 +17,14 @@ namespace BadExample
         {
             //Attachments from Gmail
             ImapClient client = new ImapClient("imap.gmail.com", 993, true);
-            client.Login("emailToSearch@.com", "secret", AuthMethod.Auto);
-            var things = client.Search(SearchCondition.From("senderEmail@.com"));
+            client.Login(ConfigurationManager.AppSettings["EmailUsername"], ConfigurationManager.AppSettings["EmailPassword"], AuthMethod.Auto);
+            var things = client.Search(SearchCondition.From(ConfigurationManager.AppSettings["SearchFromEmail"]));
             foreach (var thing in things)
             {
                 var thingFromThings = client.GetMessage(thing).Attachments;
                 foreach (var thingFromThing in thingFromThings)
                 {
-                    var newThing = File.Create("C:\\Users\\bkoenig\\Desktop\\Temp\\" + thingFromThing.Name);
+                    var newThing = File.Create(ConfigurationManager.AppSettings["TempFileLocation"] + thingFromThing.Name);
                     thingFromThing.ContentStream.Seek(0, SeekOrigin.Begin);
                     thingFromThing.ContentStream.CopyTo(newThing);
                     newThing.Close();
@@ -32,7 +33,7 @@ namespace BadExample
             //Read Info from files
             int counter = 0;
             string line;
-            foreach (var thing in Directory.GetFiles("C:\\Users\\bkoenig\\Desktop\\Temp\\"))
+            foreach (var thing in Directory.GetFiles(ConfigurationManager.AppSettings["TempFileLocation"]))
             {
                 System.IO.StreamReader file = new System.IO.StreamReader(thing);
                 while ((line = file.ReadLine()) != null)
@@ -43,37 +44,32 @@ namespace BadExample
                     {
                         break;
                     }
-                    else
+                    using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
                     {
-                        using (
-                            var connection = new SqlConnection("Server=dev;Database=BadExample;Trusted_Connection=True;")
-                            )
-                        {
-                            var returnVal = 0;
-                            var command = new SqlCommand("INSERT INTO Candy_Inventory (ID, Name, Type, Amount, Cost) values (@id, @name, @type, @amount, @cost)");
-                            command.Parameters.AddWithValue("id", lineSplit[0]);
-                            command.Parameters.AddWithValue("name", lineSplit[1]);
-                            command.Parameters.AddWithValue("type", lineSplit[2]);
-                            command.Parameters.AddWithValue("amount", lineSplit[3]);
-                            command.Parameters.AddWithValue("cost", Convert.ToDouble(lineSplit[4]));
+                        var returnVal = 0;
+                        var command = new SqlCommand("INSERT INTO Candy_Inventory (ID, Name, Type, Amount, Cost) values (@id, @name, @type, @amount, @cost)");
+                        command.Parameters.AddWithValue("id", lineSplit[0]);
+                        command.Parameters.AddWithValue("name", lineSplit[1]);
+                        command.Parameters.AddWithValue("type", lineSplit[2]);
+                        command.Parameters.AddWithValue("amount", lineSplit[3]);
+                        command.Parameters.AddWithValue("cost", Convert.ToDouble(lineSplit[4]));
 
-                            connection.Open();
-                            var reader = command.ExecuteReader();
-                            while (reader.Read())
-                            {
-                                returnVal = Convert.ToInt32(reader[0]);
-                                Console.WriteLine(returnVal);
-                            }
-                            reader.Close();
+                        connection.Open();
+                        var reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            returnVal = Convert.ToInt32(reader[0]);
+                            Console.WriteLine(returnVal);
                         }
-                        counter++;
+                        reader.Close();
                     }
-                    file.Close();
-                    counter = 0;
+                    counter++;
                 }
+                file.Close();
+                counter = 0;
             }
             //Store files on s3
-            foreach (var thing in Directory.GetFiles("C:\\Users\\bkoenig\\Desktop\\Temp\\"))
+            foreach (var thing in Directory.GetFiles(ConfigurationManager.AppSettings["TempFileLocation"]))
             {
                 var amazonClient = new AmazonS3Client(GetCredentials(), Amazon.RegionEndpoint.USEast1);
                 PutObjectRequest request = new PutObjectRequest()
@@ -85,14 +81,14 @@ namespace BadExample
                 PutObjectResponse response2 = amazonClient.PutObject(request);
             }
             //Delete files locally
-            foreach (var thing in Directory.GetFiles("C:\\Users\\bkoenig\\Desktop\\Temp\\"))
+            foreach (var thing in Directory.GetFiles(ConfigurationManager.AppSettings["TempFileLocation"]))
             {
                 File.Delete(thing);
             }
         }
         private static SessionAWSCredentials GetCredentials()
         {
-            var stsClient = new AmazonSecurityTokenServiceClient("AWS Access Key Here", "AWS Secret Key Here");
+            var stsClient = new AmazonSecurityTokenServiceClient(ConfigurationManager.AppSettings["AWSAccessKey"], ConfigurationManager.AppSettings["AWSSecretKey"]);
 
             var getSessionTokenRequest = new GetSessionTokenRequest
             {
