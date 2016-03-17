@@ -20,6 +20,7 @@ namespace BadExample.Service
         public AttachmentCollection GetAttachmentsByEmail(uint email)
         {
             return _client.GetMessage(email).Attachments;
+
         }
     }
 }
