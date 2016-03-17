@@ -4,7 +4,7 @@ using S22.Imap;
 
 namespace BadExample.Service
 {
-    public class EmailClientService
+    public class EmailClientService : IEmailClientService
     {
         private readonly ImapClient _client;
         public EmailClientService(string username, string password)

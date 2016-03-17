@@ -20,10 +20,12 @@
         }
         public void ProcessEmailAttachments()
         {
-            //Get Attachments from Gmail
+            //Get Emails from Gmail
             var emailsFromSender = _emailClientService.GetEmailsFromSender(_searchFromEmail);
+
             foreach (var email in emailsFromSender)
             {
+                //Get attachments on email
                 var attachmentsOnEmail = _emailClientService.GetAttachmentsByEmail(email);
 
                 foreach (var attachment in attachmentsOnEmail)

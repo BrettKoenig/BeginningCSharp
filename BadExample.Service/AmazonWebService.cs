@@ -6,7 +6,7 @@ using Amazon.SecurityToken.Model;
 
 namespace BadExample.Service
 {
-    public class AmazonWebService
+    public class AmazonWebService : IAmazonWebService
     {
         private readonly string _awsAccessKey;
         private readonly string _awsSecretKey;
