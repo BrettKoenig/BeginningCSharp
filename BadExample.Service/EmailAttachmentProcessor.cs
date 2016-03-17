@@ -25,15 +25,18 @@
             foreach (var email in emailsFromSender)
             {
                 var attachmentsOnEmail = _emailClientService.GetAttachmentsByEmail(email);
-                //nested foreach may not be the best solution these days.. Linq?
+
                 foreach (var attachment in attachmentsOnEmail)
                 {
                     var localFile = _fileWrapperService.CreateLocalFile(attachment, _tempFileLocation);
+
                     //Read Info from files
                     _fileWrapperService.ProcessLinesInFile(localFile);
-                    //Store files on s3
+
+                    //Store file on s3
                     _amazonWebService.UploadFileToBucket(localFile.Name, localFile.Name, _awsBucketName);
-                    //Delete files locally
+
+                    //Delete file locally
                     _fileWrapperService.DeleteLocalFile(localFile.Name);
                 }
             }
