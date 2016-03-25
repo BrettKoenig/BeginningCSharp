@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Data.SqlClient;
+using BadExample.Service.Interfaces;
 
-namespace BadExample.Service
+namespace BadExample.Service.Services
 {
     public class InventoryProcessor : IInventoryProcessor
     {

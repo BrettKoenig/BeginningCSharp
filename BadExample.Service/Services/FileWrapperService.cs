@@ -1,7 +1,8 @@
 ﻿using System.IO;
 using System.Net.Mail;
+using BadExample.Service.Interfaces;
 
-namespace BadExample.Service
+namespace BadExample.Service.Services
 {
     public class FileWrapperService : IFileWrapperService
     {

@@ -1,4 +1,4 @@
-﻿namespace BadExample.Service
+﻿namespace BadExample.Service.Interfaces
 {
     public interface IInventoryProcessor
     {

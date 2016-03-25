@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Net.Mail;
 
-namespace BadExample.Service
+namespace BadExample.Service.Interfaces
 {
     public interface IEmailClientService
     {

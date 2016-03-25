@@ -3,8 +3,9 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.SecurityToken;
 using Amazon.SecurityToken.Model;
+using BadExample.Service.Interfaces;
 
-namespace BadExample.Service
+namespace BadExample.Service.Services
 {
     public class AmazonWebService : IAmazonWebService
     {

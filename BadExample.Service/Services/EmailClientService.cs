@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Net.Mail;
+using BadExample.Service.Interfaces;
 using S22.Imap;
 
-namespace BadExample.Service
+namespace BadExample.Service.Services
 {
     public class EmailClientService : IEmailClientService
     {
