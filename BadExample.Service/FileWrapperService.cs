@@ -3,7 +3,7 @@ using System.Net.Mail;
 
 namespace BadExample.Service
 {
-    public class FileWrapperService
+    public class FileWrapperService : IFileWrapperService
     {
         private readonly string _connectionString;
         public FileWrapperService(string connectionString)

@@ -48,8 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmazonWebService.cs" />
     <Compile Include="EmailAttachmentProcessor.cs" />
+    <Compile Include="EmailClientService.cs" />
     <Compile Include="FileWrapperService.cs" />
+    <Compile Include="IAmazonWebService.cs" />
+    <Compile Include="IEmailAttachmentProcessor.cs" />
+    <Compile Include="IEmailClientService.cs" />
+    <Compile Include="IFileWrapperService.cs" />
+    <Compile Include="IInventoryProcessor.cs" />
     <Compile Include="InventoryProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,6 +1,6 @@
 ﻿namespace BadExample.Service
 {
-    public class EmailAttachmentProcessor
+    public class EmailAttachmentProcessor : IEmailAttachmentProcessor
     {
         private readonly string _searchFromEmail;
         private readonly string _tempFileLocation;

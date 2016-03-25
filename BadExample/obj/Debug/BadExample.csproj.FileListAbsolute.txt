@@ -8,3 +8,9 @@ c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\obj
 c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\obj\Debug\BadExample.pdb
 c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\bin\Debug\AWSSDK.dll
 c:\users\bkoenig\documents\visual studio 2015\Projects\BadExample\BadExample\bin\Debug\AWSSDK.pdb
+H:\Blog post - coding for real world\BadExample\BadExample\bin\Debug\BadExample.exe.config
+H:\Blog post - coding for real world\BadExample\BadExample\obj\Debug\BadExample.exe
+H:\Blog post - coding for real world\BadExample\BadExample\obj\Debug\BadExample.pdb
+C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\BadExample.exe.config
+C:\Users\bkoenig\Desktop\BadExample\BadExample\obj\Debug\BadExample.exe
+C:\Users\bkoenig\Desktop\BadExample\BadExample\obj\Debug\BadExample.pdb

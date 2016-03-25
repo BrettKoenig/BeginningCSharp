@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 
 namespace BadExample.Service
 {
-    public class InventoryProcessor
+    public class InventoryProcessor : IInventoryProcessor
     {
         private readonly string _connectionString;
         public InventoryProcessor(string connectionString)
