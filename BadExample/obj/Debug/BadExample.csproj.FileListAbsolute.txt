@@ -14,3 +14,14 @@ H:\Blog post - coding for real world\BadExample\BadExample\obj\Debug\BadExample.
 C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\BadExample.exe.config
 C:\Users\bkoenig\Desktop\BadExample\BadExample\obj\Debug\BadExample.exe
 C:\Users\bkoenig\Desktop\BadExample\BadExample\obj\Debug\BadExample.pdb
+C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\BadExample.exe
+C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\BadExample.pdb
+C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\Autofac.dll
+C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\BadExample.Service.dll
+C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\AWSSDK.dll
+C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\S22.Imap.dll
+C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\BadExample.Service.pdb
+C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\Autofac.xml
+C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\AWSSDK.pdb
+C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\S22.Imap.xml
+C:\Users\bkoenig\Desktop\BadExample\BadExample\obj\Debug\BadExample.csprojResolveAssemblyReference.cache

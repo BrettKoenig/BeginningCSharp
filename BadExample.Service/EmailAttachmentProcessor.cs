@@ -1,4 +1,8 @@
-﻿namespace BadExample.Service
+﻿using System;
+using BadExample.Service.Interfaces;
+using BadExample.Service.Services;
+
+namespace BadExample.Service
 {
     public class EmailAttachmentProcessor : IEmailAttachmentProcessor
     {
@@ -20,6 +24,7 @@
         }
         public void ProcessEmailAttachments()
         {
+            Console.WriteLine("HEY");
             //Get Emails from Gmail
             var emailsFromSender = _emailClientService.GetEmailsFromSender(_searchFromEmail);
 

@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="AWSSDK, Version=2.3.55.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
       <HintPath>..\packages\AWSSDK.2.3.55.0\lib\net45\AWSSDK.dll</HintPath>
       <Private>True</Private>
@@ -48,16 +52,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AmazonWebService.cs" />
+    <Compile Include="Services\AmazonWebService.cs" />
     <Compile Include="EmailAttachmentProcessor.cs" />
-    <Compile Include="EmailClientService.cs" />
-    <Compile Include="FileWrapperService.cs" />
-    <Compile Include="IAmazonWebService.cs" />
-    <Compile Include="IEmailAttachmentProcessor.cs" />
-    <Compile Include="IEmailClientService.cs" />
-    <Compile Include="IFileWrapperService.cs" />
-    <Compile Include="IInventoryProcessor.cs" />
-    <Compile Include="InventoryProcessor.cs" />
+    <Compile Include="Services\EmailClientService.cs" />
+    <Compile Include="Services\FileWrapperService.cs" />
+    <Compile Include="Interfaces\IAmazonWebService.cs" />
+    <Compile Include="Interfaces\IEmailAttachmentProcessor.cs" />
+    <Compile Include="Interfaces\IEmailClientService.cs" />
+    <Compile Include="Interfaces\IFileWrapperService.cs" />
+    <Compile Include="Interfaces\IInventoryProcessor.cs" />
+    <Compile Include="Services\InventoryProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
