@@ -1,7 +1,5 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 using BadExample.Service.Interfaces;
-using BadExample.Service.Services;
 
 namespace BadExample.Service
 {

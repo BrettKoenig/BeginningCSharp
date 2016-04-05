@@ -9,7 +9,7 @@ namespace BadExample.Test.Services
         private IEmailClientService _target;
 
         [Fact]
-        public void LoginFails()
+        public void LoginFailsWithBadCredentials()
         {
             _target = new EmailClientService();
 

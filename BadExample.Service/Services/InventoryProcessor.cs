@@ -13,15 +13,13 @@ namespace BadExample.Service.Services
         }
         public void ProcessLineItem(string line)
         {
-            Console.WriteLine(line);
             InventoryItem item = MakeInventoryItem(line);
             if (item.IsValid())
             {
                 _databaseAccessor.InsertInventory(item);
             }
         }
-
-        private static InventoryItem MakeInventoryItem(string line)
+        public InventoryItem MakeInventoryItem(string line)
         {
             var lineSplit = line.Split(',');
             if (lineSplit.Length != 5) return new InventoryItem();
