@@ -24,7 +24,6 @@ namespace BadExample.Service
         }
         public void ProcessEmailAttachments()
         {
-            Console.WriteLine("HEY");
             //Get Emails from Gmail
             var emailsFromSender = _emailClientService.GetEmailsFromSender(_searchFromEmail);
 

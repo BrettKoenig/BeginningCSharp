@@ -7,5 +7,6 @@ namespace BadExample.Service.Interfaces
     {
         IEnumerable<uint> GetEmailsFromSender(string fromEmail);
         AttachmentCollection GetAttachmentsByEmail(uint email);
+        bool Login(string username, string password);
     }
 }
