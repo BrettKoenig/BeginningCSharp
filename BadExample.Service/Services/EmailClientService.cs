@@ -10,9 +10,10 @@ namespace BadExample.Service.Services
     public class EmailClientService : IEmailClientService
     {
         private readonly ImapClient _client;
-        public EmailClientService()
+        public EmailClientService(string username, string password)
         {
             _client = new ImapClient("imap.gmail.com", 993, true);
+            Login(username, password);
         }
 
         public bool Login(string username, string password)
