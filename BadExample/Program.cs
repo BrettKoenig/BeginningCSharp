@@ -15,15 +15,7 @@ namespace BadExample
             AutofacConfiguration();
             using (var scope = Container.BeginLifetimeScope())
             {
-                var emailAttachmentProcessor = scope.Resolve<IEmailAttachmentProcessor>(
-                    new NamedParameter("emailUsername", ConfigurationManager.AppSettings["EmailUsername"]),
-                    new NamedParameter("emailPassword", ConfigurationManager.AppSettings["EmailPassword"]),
-                    new NamedParameter("searchFromEmail", ConfigurationManager.AppSettings["SearchFromEmail"]),
-                    new NamedParameter("tempFileLocation", ConfigurationManager.AppSettings["TempFileLocation"]),
-                    new NamedParameter("connectionString", ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString),
-                    new NamedParameter("awsBucketName", ConfigurationManager.AppSettings["AWSBucketName"]),
-                    new NamedParameter("awsAccessKey", ConfigurationManager.AppSettings["AWSAccessKey"]),
-                    new NamedParameter("awsSecretKey", ConfigurationManager.AppSettings["AWSSecretKey"]));
+                var emailAttachmentProcessor = scope.Resolve<IEmailAttachmentProcessor>();
                 emailAttachmentProcessor.ProcessEmailAttachments();
             }
         }

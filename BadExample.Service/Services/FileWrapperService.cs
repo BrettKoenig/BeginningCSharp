@@ -6,10 +6,10 @@ namespace BadExample.Service.Services
 {
     public class FileWrapperService : IFileWrapperService
     {
-        private readonly string _connectionString;
-        public FileWrapperService(string connectionString)
+        private readonly IInventoryProcessor _inventoryProcessor;
+        public FileWrapperService(IInventoryProcessor inventoryProcessor)
         {
-            _connectionString = connectionString;
+            _inventoryProcessor = inventoryProcessor;
         }
         public void DeleteLocalFile(string filePath)
         {
@@ -27,12 +27,11 @@ namespace BadExample.Service.Services
 
         public void ProcessLinesInFile(FileStream fileToReadFrom)
         {
-            var inventoryProcessor = new InventoryProcessor(_connectionString);
             string line = string.Empty;
             StreamReader fileStream = new StreamReader(fileToReadFrom);
             while ((line = fileStream.ReadLine()) != null)
             {
-                inventoryProcessor.ProcessLineItem(line);
+                _inventoryProcessor.ProcessLineItem(line);
             }
             fileStream.Close();
         }

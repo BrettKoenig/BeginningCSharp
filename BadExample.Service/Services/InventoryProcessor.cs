@@ -1,42 +1,38 @@
 ﻿using System;
-using System.Data.SqlClient;
 using BadExample.Service.Interfaces;
+using BadExample.Service.Models;
 
 namespace BadExample.Service.Services
 {
     public class InventoryProcessor : IInventoryProcessor
     {
-        private readonly string _connectionString;
-        public InventoryProcessor(string connectionString)
+        private readonly IDatabaseAccessor _databaseAccessor;
+        public InventoryProcessor(IDatabaseAccessor databaseAccessor)
         {
-            _connectionString = connectionString;
+            _databaseAccessor = databaseAccessor;
         }
         public void ProcessLineItem(string line)
         {
             Console.WriteLine(line);
-            var lineSplit = line.Split(',');
-            if (lineSplit.Length == 5)
+            InventoryItem item = MakeInventoryItem(line);
+            if (item.IsValid())
             {
-                using (var connection = new SqlConnection(_connectionString))
-                {
-                    var command =
-                        new SqlCommand("INSERT INTO Candy_Inventory (ID, Name, Type, Amount, Cost) values (@id, @name, @type, @amount, @cost)");
-                    command.Parameters.AddWithValue("id", lineSplit[0]);
-                    command.Parameters.AddWithValue("name", lineSplit[1]);
-                    command.Parameters.AddWithValue("type", lineSplit[2]);
-                    command.Parameters.AddWithValue("amount", lineSplit[3]);
-                    command.Parameters.AddWithValue("cost", Convert.ToDouble(lineSplit[4]));
-
-                    connection.Open();
-                    var reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        int returnVal = Convert.ToInt32(reader[0]);
-                        Console.WriteLine(returnVal);
-                    }
-                    reader.Close();
-                }
+                _databaseAccessor.InsertInventory(item);
             }
+        }
+
+        private static InventoryItem MakeInventoryItem(string line)
+        {
+            var lineSplit = line.Split(',');
+            if (lineSplit.Length != 5) return new InventoryItem();
+            return new InventoryItem
+            {
+                Id = Convert.ToInt32(lineSplit[0]),
+                Name = lineSplit[1],
+                Type = lineSplit[2],
+                Amount = Convert.ToInt32(lineSplit[3]),
+                Cost = Convert.ToDecimal(lineSplit[4])
+            };
         }
     }
 }

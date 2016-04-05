@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Mail;
-using Amazon.IdentityManagement.Model;
 using BadExample.Service.Interfaces;
 using S22.Imap;
 

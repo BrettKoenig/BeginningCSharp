@@ -1,4 +1,5 @@
-﻿using Amazon.Runtime;
+﻿using System.Configuration;
+using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.SecurityToken;
@@ -11,10 +12,10 @@ namespace BadExample.Service.Services
     {
         private readonly string _awsAccessKey;
         private readonly string _awsSecretKey;
-        public AmazonWebService(string awsAccessKey, string awsSecretKey)
+        public AmazonWebService()
         {
-            _awsAccessKey = awsAccessKey;
-            _awsSecretKey = awsSecretKey;
+            _awsAccessKey = ConfigurationManager.AppSettings["AWSAccessKey"];
+            _awsSecretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
         }
         public void UploadFileToBucket(string localFilePath, string amazonFilePath, string bucketName)
         {

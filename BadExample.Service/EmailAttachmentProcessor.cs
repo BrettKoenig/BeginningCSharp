@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using BadExample.Service.Interfaces;
 using BadExample.Service.Services;
 
@@ -6,27 +7,21 @@ namespace BadExample.Service
 {
     public class EmailAttachmentProcessor : IEmailAttachmentProcessor
     {
-        private readonly string _searchFromEmail;
-        private readonly string _tempFileLocation;
-        private readonly string _awsBucketName;
-        private readonly EmailClientService _emailClientService;
-        private readonly FileWrapperService _fileWrapperService;
-        private readonly AmazonWebService _amazonWebService;
+        private readonly IEmailClientService _emailClientService;
+        private readonly IFileWrapperService _fileWrapperService;
+        private readonly IAmazonWebService _amazonWebService;
 
-        public EmailAttachmentProcessor(string emailUsername, string emailPassword, string searchFromEmail, string tempFileLocation, string connectionString, string awsBucketName, string awsAccessKey, string awsSecretKey)
+        public EmailAttachmentProcessor(IEmailClientService emailClientService, IFileWrapperService fileWrapperService, IAmazonWebService amazonWebService)
         {
-            _searchFromEmail = searchFromEmail;
-            _tempFileLocation = tempFileLocation;
-            _awsBucketName = awsBucketName;
-            _emailClientService = new EmailClientService();
-            _emailClientService.Login(emailUsername, emailPassword);
-            _fileWrapperService = new FileWrapperService(connectionString);
-            _amazonWebService = new AmazonWebService(awsAccessKey, awsSecretKey);
+            _emailClientService = emailClientService;
+            _emailClientService.Login(ConfigurationManager.AppSettings["EmailUsername"], ConfigurationManager.AppSettings["EmailPassword"]);
+            _fileWrapperService = fileWrapperService;
+            _amazonWebService = amazonWebService;
         }
         public void ProcessEmailAttachments()
         {
             //Get Emails from Gmail
-            var emailsFromSender = _emailClientService.GetEmailsFromSender(_searchFromEmail);
+            var emailsFromSender = _emailClientService.GetEmailsFromSender(ConfigurationManager.AppSettings["SearchFromEmail"]);
 
             foreach (var email in emailsFromSender)
             {
@@ -35,13 +30,13 @@ namespace BadExample.Service
 
                 foreach (var attachment in attachmentsOnEmail)
                 {
-                    var localFile = _fileWrapperService.CreateLocalFile(attachment, _tempFileLocation);
+                    var localFile = _fileWrapperService.CreateLocalFile(attachment, ConfigurationManager.AppSettings["TempFileLocation"]);
 
                     //Read Info from files
                     _fileWrapperService.ProcessLinesInFile(localFile);
 
                     //Store file on s3
-                    _amazonWebService.UploadFileToBucket(localFile.Name, localFile.Name, _awsBucketName);
+                    _amazonWebService.UploadFileToBucket(localFile.Name, localFile.Name, ConfigurationManager.AppSettings["AWSBucketName"]);
 
                     //Delete file locally
                     _fileWrapperService.DeleteLocalFile(localFile.Name);

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BadExample.Service.Interfaces;
+﻿using BadExample.Service.Interfaces;
 using BadExample.Service.Services;
-using NSubstitute;
 using Xunit;
 
 namespace BadExample.Test.Services
