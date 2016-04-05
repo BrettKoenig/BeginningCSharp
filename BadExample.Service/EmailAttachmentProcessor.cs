@@ -18,7 +18,8 @@ namespace BadExample.Service
             _searchFromEmail = searchFromEmail;
             _tempFileLocation = tempFileLocation;
             _awsBucketName = awsBucketName;
-            _emailClientService = new EmailClientService(emailUsername, emailPassword);
+            _emailClientService = new EmailClientService();
+            _emailClientService.Login(emailUsername, emailPassword);
             _fileWrapperService = new FileWrapperService(connectionString);
             _amazonWebService = new AmazonWebService(awsAccessKey, awsSecretKey);
         }
