@@ -84,6 +84,7 @@ namespace BadExample.Test.Services
         [Fact]
         public void ProcessLineItemDoesNotCallInsertInventoryWithBadLine()
         {
+
             var mockDatabaseAccessor = Substitute.For<IDatabaseAccessor>();
             _target = new InventoryProcessor(mockDatabaseAccessor);
             var line = "1, Hello zoom, Two, 3, moooooo";
