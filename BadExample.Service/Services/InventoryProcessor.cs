@@ -1,5 +1,4 @@
-﻿using System;
-using BadExample.Service.Interfaces;
+﻿using BadExample.Service.Interfaces;
 using BadExample.Service.Models;
 
 namespace BadExample.Service.Services
@@ -14,7 +13,7 @@ namespace BadExample.Service.Services
         public void ProcessLineItem(string line)
         {
             InventoryItem item = MakeInventoryItem(line);
-            if (item.IsValid())
+            if (item.Id > 0)
             {
                 _databaseAccessor.InsertInventory(item);
             }
@@ -22,15 +21,7 @@ namespace BadExample.Service.Services
         public InventoryItem MakeInventoryItem(string line)
         {
             var lineSplit = line.Split(',');
-            if (lineSplit.Length != 5) return new InventoryItem();
-            return new InventoryItem
-            {
-                Id = Convert.ToInt32(lineSplit[0]),
-                Name = lineSplit[1],
-                Type = lineSplit[2],
-                Amount = Convert.ToInt32(lineSplit[3]),
-                Cost = Convert.ToDecimal(lineSplit[4])
-            };
+            return lineSplit.Length != 5 ? new InventoryItem() : new InventoryItem(lineSplit[0], lineSplit[1], lineSplit[2], lineSplit[3], lineSplit[4]);
         }
     }
 }

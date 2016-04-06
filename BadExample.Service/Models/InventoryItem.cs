@@ -1,27 +1,41 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace BadExample.Service.Models
 {
     public class InventoryItem
     {
-        private readonly Regex _nonAlphaRgx = new Regex("[^A-z]");
-        private string _name;
-        public string Name
+        public string Name { get; private set; }
+        public int Id { get; private set; }
+        public string Type { get; private set; }
+        public int Amount { get; private set; }
+        public decimal Cost { get; private set; }
+        public InventoryItem()
         {
-            get { return _name; }
-            set
-            {
-                _name = string.IsNullOrEmpty(value) ? "" : _nonAlphaRgx.Replace(value.Trim(), "");
-            }
+            Id = -1;
+            Amount = 0;
+            Cost = 0;
+            Name = "";
+            Type = "";
         }
-        public int Id;
-        public string Type;
-        public int Amount;
-        public decimal Cost;
-
-        public bool IsValid()
+        public InventoryItem(string id, string name, string type, string amount, string cost)
         {
-            return true;
+            try
+            {
+                Id = Convert.ToInt32(id);
+                Amount = Convert.ToInt32(amount);
+                Cost = Convert.ToDecimal(cost);
+                Name = name.Trim();
+                Type = type.Trim();
+            }
+            catch
+            {
+                Id = -1;
+                Amount = 0;
+                Cost = 0;
+                Name = "";
+                Type = "";
+            }
         }
     }
 }
