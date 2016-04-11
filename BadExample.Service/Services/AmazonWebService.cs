@@ -1,10 +1,13 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using System.IO;
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.SecurityToken;
 using Amazon.SecurityToken.Model;
 using BadExample.Service.Interfaces;
+using BadExample.Service.Models;
 
 namespace BadExample.Service.Services
 {
@@ -17,16 +20,43 @@ namespace BadExample.Service.Services
             _awsAccessKey = ConfigurationManager.AppSettings["AWSAccessKey"];
             _awsSecretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
         }
-        public void UploadFileToBucket(string localFilePath, string amazonFilePath, string bucketName)
+        public ResponseObject<bool> UploadFileToBucket(string localFilePath, string amazonFilePath, string bucketName)
         {
-            var amazonClient = new AmazonS3Client(GetCredentials(), Amazon.RegionEndpoint.USEast1);
-            PutObjectRequest request = new PutObjectRequest()
+            try
             {
-                BucketName = bucketName,
-                Key = amazonFilePath,
-                FilePath = localFilePath
-            };
-            PutObjectResponse response = amazonClient.PutObject(request);
+                if (!File.Exists(localFilePath))
+                {
+                    return new ResponseObject<bool>
+                    {
+                        Error = new ArgumentException($"{localFilePath}- file does not exist in UploadFileToS3 in AmazonWebService Package"),
+                        Value = false
+                    };
+                }
+
+                var client = new AmazonS3Client(GetCredentials(), Amazon.RegionEndpoint.USEast1);
+                var request = new PutObjectRequest
+                {
+                    FilePath = localFilePath,
+                    BucketName = bucketName,
+                    Key = amazonFilePath,
+                    ServerSideEncryptionMethod = ServerSideEncryptionMethod.AES256
+                };
+                client.PutObject(request);
+
+                return new ResponseObject<bool>
+                {
+                    Error = null,
+                    Value = true
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseObject<bool>
+                {
+                    Error = new ArgumentException($"There was an exception thrown in UploadFileToBucket:{e}"),
+                    Value = false
+                };
+            }
         }
 
         private SessionAWSCredentials GetCredentials()

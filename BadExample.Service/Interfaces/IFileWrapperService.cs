@@ -5,7 +5,7 @@ namespace BadExample.Service.Interfaces
 {
     public interface IFileWrapperService
     {
-        void DeleteLocalFile(string filePath);
+        bool DeleteLocalFile(string filePath);
         FileStream CreateLocalFile(Attachment emailAttachment, string tempFileLocation);
         void ProcessLinesInFile(FileStream fileToReadFrom);
     }

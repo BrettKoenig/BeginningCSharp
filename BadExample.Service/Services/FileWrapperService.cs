@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net.Mail;
 using BadExample.Service.Interfaces;
 
@@ -11,9 +12,18 @@ namespace BadExample.Service.Services
         {
             _inventoryProcessor = inventoryProcessor;
         }
-        public void DeleteLocalFile(string filePath)
+        public bool DeleteLocalFile(string filePath)
         {
-            File.Delete(filePath);
+            try
+            {
+                File.Delete(filePath);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                //could log something here
+            }
+            return false;
         }
 
         public FileStream CreateLocalFile(Attachment emailAttachment, string tempFileLocation)
@@ -27,7 +37,7 @@ namespace BadExample.Service.Services
 
         public void ProcessLinesInFile(FileStream fileToReadFrom)
         {
-            string line = string.Empty;
+            string line;
             StreamReader fileStream = new StreamReader(fileToReadFrom);
             while ((line = fileStream.ReadLine()) != null)
             {

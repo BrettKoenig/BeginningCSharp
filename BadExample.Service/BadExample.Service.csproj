@@ -57,6 +57,7 @@
     <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Interfaces\IDatabaseAccessor.cs" />
     <Compile Include="Models\InventoryItem.cs" />
+    <Compile Include="Models\ResponseObject.cs" />
     <Compile Include="Services\AmazonWebService.cs" />
     <Compile Include="EmailAttachmentProcessor.cs" />
     <Compile Include="Services\EmailClientService.cs" />

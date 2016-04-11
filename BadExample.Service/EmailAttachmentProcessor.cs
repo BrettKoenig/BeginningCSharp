@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.Diagnostics.CodeAnalysis;
 using BadExample.Service.Interfaces;
 
 namespace BadExample.Service
@@ -16,6 +17,7 @@ namespace BadExample.Service
             _fileWrapperService = fileWrapperService;
             _amazonWebService = amazonWebService;
         }
+        [ExcludeFromCodeCoverage]
         public void ProcessEmailAttachments()
         {
             //Get Emails from Gmail

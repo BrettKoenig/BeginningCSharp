@@ -24,8 +24,7 @@ namespace BadExample.Test.Services
             Assert.Equal(result.Amount, 3);
             Assert.Equal(result.Cost, 45.00m);
         }
-
-
+        
         [Fact]
         public void MakeInventoryItemReturnsCorrectInventoryItemWithBadId()
         {

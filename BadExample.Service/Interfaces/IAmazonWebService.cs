@@ -1,7 +1,9 @@
-﻿namespace BadExample.Service.Interfaces
+﻿using BadExample.Service.Models;
+
+namespace BadExample.Service.Interfaces
 {
     public interface IAmazonWebService
     {
-        void UploadFileToBucket(string localFilePath, string amazonFilePath, string bucketName);
+        ResponseObject<bool> UploadFileToBucket(string localFilePath, string amazonFilePath, string bucketName);
     }
 }
