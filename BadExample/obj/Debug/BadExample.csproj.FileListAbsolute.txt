@@ -25,3 +25,6 @@ C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\Autofac.xml
 C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\AWSSDK.pdb
 C:\Users\bkoenig\Desktop\BadExample\BadExample\bin\Debug\S22.Imap.xml
 C:\Users\bkoenig\Desktop\BadExample\BadExample\obj\Debug\BadExample.csprojResolveAssemblyReference.cache
+C:\Users\bkoenig\Desktop\BeginningCSharp\BadExample\bin\Debug\BadExample.exe.config
+C:\Users\bkoenig\Desktop\BeginningCSharp\BadExample\obj\Debug\BadExample.exe
+C:\Users\bkoenig\Desktop\BeginningCSharp\BadExample\obj\Debug\BadExample.pdb
